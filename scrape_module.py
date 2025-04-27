@@ -52,7 +52,7 @@ def scrape_autotrader(cars, criteria, st):
                 except Exception as e:
                     st.warning(f"Failed to parse a listing: {e}")
 
-            time.sleep(1)  # Be polite to the server
+            time.sleep(1)
 
     except Exception as e:
         st.error(f"Scraping error: {e}")
@@ -74,8 +74,8 @@ def scrape_autotrader(cars, criteria, st):
     except Exception as e:
         st.warning(f"Price parsing failed: {e}")
 
-    avg_mileage = 0  # No mileage scraping yet
-    competition_index = random.randint(30, 70)  # Placeholder
+    avg_mileage = 0
+    competition_index = random.randint(30, 70)
 
     metrics = {
         "average_mileage": avg_mileage,
@@ -83,3 +83,7 @@ def scrape_autotrader(cars, criteria, st):
     }
 
     return df, metrics, timestamp
+
+
+def create_price_trend_graph(monthly_data, timestamp, car_make, car_model):
+    pass  # No graph plotting for now
