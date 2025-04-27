@@ -46,29 +46,26 @@ if start_scraping:
 
             st.success(f"Scraping completed in {elapsed_time:.2f} seconds!")
 
-            # Display metrics
-            "average_mileage": avg_mileage,  # 0 if unknown
-            "competition_index": competition_index,
+            if not df.empty:
+                # Display metrics
+                st.metric("Average Mileage", f"{metrics.get('average_mileage', 0):.0f} miles")
+                st.metric("Competition Index", f"{metrics.get('competition_index', 0)}/100")
 
-            # Show DataFrame
-            st.dataframe(df)
+                # Show DataFrame
+                st.dataframe(df)
 
-            # Download button
-            csv_filename = f"autotrader_results_{timestamp}.csv"
-            df.to_csv(csv_filename, index=False)
-            with open(csv_filename, "rb") as f:
-                st.download_button(
-                    label="Download CSV",
-                    data=f,
-                    file_name=csv_filename,
-                    mime="text/csv"
-                )
-
-            # Show graph
-            if os.path.exists(f"average_price_trend_{timestamp}.png"):
-                st.image(f"average_price_trend_{timestamp}.png", caption="Price Trend Graph")
+                # Download button
+                csv_filename = f"autotrader_results_{timestamp}.csv"
+                df.to_csv(csv_filename, index=False)
+                with open(csv_filename, "rb") as f:
+                    st.download_button(
+                        label="Download CSV",
+                        data=f,
+                        file_name=csv_filename,
+                        mime="text/csv"
+                    )
+            else:
+                st.warning("No results found.")
 
         except Exception as e:
             st.error(f"An error occurred during scraping: {e}")
-
-
