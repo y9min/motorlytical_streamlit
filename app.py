@@ -47,8 +47,8 @@ if start_scraping:
             st.success(f"Scraping completed in {elapsed_time:.2f} seconds!")
 
             # Display metrics
-            st.metric("Average Mileage", f"{metrics['average_mileage']:.0f} miles")
-            st.metric("Competition Index", f"{metrics['competition_index']}/100")
+            "average_mileage": avg_mileage,  # 0 if unknown
+            "competition_index": competition_index,
 
             # Show DataFrame
             st.dataframe(df)
