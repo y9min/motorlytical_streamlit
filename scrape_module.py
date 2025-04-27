@@ -33,7 +33,6 @@ def scrape_autotrader(cars, criteria, st):
                 continue
 
             soup = BeautifulSoup(response.text, "html.parser")
-
             listings = soup.find_all("li", class_="search-page__result")
             st.write(f"Found {len(listings)} listings")
 
@@ -47,7 +46,6 @@ def scrape_autotrader(cars, criteria, st):
                         name = name_elem.text.strip()
                         price = price_elem.text.strip()
                         link = "https://www.autotrader.co.uk" + link_elem['href']
-
                         data.append({"name": name, "price": price, "link": link})
                 except Exception as e:
                     st.warning(f"Failed to parse a listing: {e}")
@@ -59,7 +57,11 @@ def scrape_autotrader(cars, criteria, st):
 
     if not data:
         st.warning("No data scraped.")
-        return pd.DataFrame(), {}, datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        empty_metrics = {
+            "average_mileage": 0,
+            "competition_index": 0,
+        }
+        return pd.DataFrame(), empty_metrics, datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
     df = pd.DataFrame(data)
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -74,8 +76,8 @@ def scrape_autotrader(cars, criteria, st):
     except Exception as e:
         st.warning(f"Price parsing failed: {e}")
 
-    avg_mileage = 0
-    competition_index = random.randint(30, 70)
+    avg_mileage = 0  # No mileage scraping yet
+    competition_index = random.randint(30, 70)  # Random competition index
 
     metrics = {
         "average_mileage": avg_mileage,
@@ -84,6 +86,5 @@ def scrape_autotrader(cars, criteria, st):
 
     return df, metrics, timestamp
 
-
 def create_price_trend_graph(monthly_data, timestamp, car_make, car_model):
-    pass  # No graph plotting for now
+    pass  # No graph needed yet
